@@ -12,9 +12,9 @@ R = LED(17)
 G = LED(27)
 B = LED(22)
 
-def relay_on(RGB):
-    print("On")
+def relay_on(ref RGB):
     relay.on()
+    print("Triggering ON:",RGB[0])
     RGB[0].on()
     #   start timer
     timer = Timer(5, relay_off, args=())
@@ -51,7 +51,7 @@ SW_G.when_pressed = y
 SW_Y.when_pressed = z
 
 trigger = Button(2)
-trigger.when_pressed = relay_on(RGB)
+trigger.when_pressed = relay_on(ref RGB)
 
 resetbutton = Button(3)
 resetbutton.when_pressed = relay_off
