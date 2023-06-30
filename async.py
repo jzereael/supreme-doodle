@@ -1,42 +1,26 @@
+from gpiozero import Button, LED
+from signal import pause
+from threading import Timer
 
-import threading, time
-import functools
+relay = LED(19)
+
+def hello():
+    print("On")
+    relay.on()
+    #   start timer
+    timer = Timer(5, relay_off, args=())
+    timer.start()
+
+def relay_off():
+    print("Off")
+    relay.off()
+
+button_on = Button(2)
+button_on.when_pressed = hello
 
 
-def calltracker(func):
-    @functools.wraps(func)
-    def wrapper(*args):
-        wrapper.has_been_called = True
-        return func(*args)
-    wrapper.has_been_called = False
-    return wrapper
+button_off = Button(3)
+button_off.when_pressed = relay_off
 
-@calltracker
-def doubler(number):
-    print('Turn off shit called!')
-    return number * 2
 
-def foo(xtime):
-    print(time.ctime(), xtime)
-    xtime=+1
-    return xtime
-    
-WAIT_TIME_SECONDS = .5
-TIME_UNTIL_EXEC = 0
-
-ticker = threading.Event()
-
-while not ticker.wait(WAIT_TIME_SECONDS):
-    TIME_UNTIL_EXEC += foo(TIME_UNTIL_EXEC)
-    if not doubler.has_been_called:
-        print("You haven't called this function yet")
-    
-    if (doubler.has_been_called):
-        print('doubler has been called!')
-
-    if (TIME_UNTIL_EXEC % 5 == 0):
-        doubler(20)
-    
-    if (TIME_UNTIL_EXEC % 10 == 0):
-        doubler.has_been_called = False
-    
+pause()
