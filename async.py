@@ -28,19 +28,21 @@ def relay_off():
 def apply_source(SWITCH_INPUT, LED_OUTPUT):
     LED_OUTPUT.source = SWITCH_INPUT
 
-
-
 def led_on(L1):
     print("led_on")
     L1.on()
 
 def x():
     print("Button 5 pressed")
+    R.on()
+
 def y():
     print("Button 6 pressed")
+    G.on()
+
 def z():
     print("Button 13 pressed")
-
+    B.on
 
 SW_R.when_pressed = x
 SW_G.when_pressed = y
